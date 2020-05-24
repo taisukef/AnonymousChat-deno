@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AnonymousChat in Deno</title>
+<link rel="stylesheet" href="./style.css"/>
+</head>
+<body>
+
+<div class="main">
+  <div class="header">
+    <div id="roomName"></div>
+    <button id="makeRoom">make room</button>
+  </div>
+  <div id="chatMessages"></div>
+  <div class="footer">
+    <form id="messageForm">
+      <input id="messageInput" type="text" placeholder="Type message and hit the enter" autocomplete="off">
+      <button>send</button>
+    </form>
+    <div class="credit">
+      <div>APP: <a href='https://fukuno.jig.jp/2859'>AnonymousChat in Deno</a> by <a href='https://twitter.com/taisukef'>@taisukef</a> (<a href='https://github.com/taisukef/AnonymousChat-deno/'>src on GitHub</a>) inspired by <a href=https://github.com/thecodeholic/deno-websocket-chat>deno-websocket-chat</a></div>
+    </div>
+  </div>
+</div>
+
+<script type='module'>
+import AnonymousClient from './AnonymousClient.mjs'
+
+const addMessage = function (s, mymessage) {
+  const div = document.createElement('div')
+  div.textContent = s
+  // div.className = mymessage ? 'mine' : 'yours'
+  chatMessages.appendChild(div)
+  chatMessages.scrollTop = chatMessages.scrollHeight - chatMessages.clientHeight
+}
+window.onload = async function () {
+  let room = window.location.hash.length > 0 ? window.location.hash : '#default'
+  roomName.textContent = room
+
+  const client = new AnonymousClient()
+  await client.connect(room, data => addMessage(data.data.text, client.isMine(data)))
+  messageForm.onsubmit = e => {
+    e.preventDefault()
+    if (messageInput.value.trim().length === 0) { return }
+    client.send({ text: messageInput.value })
+    messageInput.value = ''
+  }
+  const welcome = () => {
+    chatMessages.innerHTML = ''
+    addMessage('Welcome to AnonymousChat in Deno', false)
+    messageInput.focus()
+  }
+  welcome()
+
+  makeRoom.onclick = () => {
+    let roomname = prompt('room name?')
+    if (roomname == null) { return }
+    roomname = '#' + roomname.trim()
+    window.location.hash = roomname
+    if (roomname === '#') { roomname = '#default' }
+    roomName.textContent = roomname
+    client.changeRoom(roomname)
+    room = roomname
+    welcome()
+  }
+}
+</script>
+</body>
+</html>

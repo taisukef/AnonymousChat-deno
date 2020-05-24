@@ -1,0 +1,94 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  height: 100%;
+  --main-color: hsl(230, 20%, 40%);
+  --my-color: hsl(230, 20%, 80%);
+  --your-color: hsl(50, 20%, 80%);
+}
+body {
+  height: 100%;
+  font-family: sans-serif;
+  background-color: var(--main-color);
+}
+/* main */
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  color: white;
+  overflow: hidden;
+}
+.header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: .6em;
+}
+.header > div {
+  flex: 1;
+}
+.main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+}
+input[type='text'] {
+  outline: 0;
+  display: block;
+  width: 100%;
+  padding: .6em .6em;
+  border: .2em solid #aaa;
+}
+button {
+  outline: 0;
+  padding: 6px 10px;
+  border: .2em solid #444;
+  background-color: #FFF;
+}
+#chatMessages {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: #FFF;
+  color: black;
+  padding: 15px;
+  overflow: auto;
+}
+#chatMessages > div {
+  font-size: 80%;
+  margin-bottom: .2em;
+}
+/*
+#chatMessages > div {
+  border-radius: .8em;
+  align-self: flex-end;
+  padding: .6em 1em;
+  background-color: var(--my-color);
+  margin-bottom: .5em;
+  font-size: 80%;
+}
+#chatMessages .yours {
+  background-color: var(--your-color);
+  align-self: flex-start;
+}
+*/
+/* footer */
+.footer {
+  padding: .5em;
+}
+.footer form {
+  display: flex;
+}
+.credit {
+  margin-top: .5em;
+  font-size: 90%;
+}
+.credit a {
+  color: white !important;
+}
