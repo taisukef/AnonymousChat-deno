@@ -25,6 +25,9 @@
 <script type='module'>
 import AnonymousClient from './AnonymousClient.mjs'
 
+// const HOST = 'ws://localhost:3000/ws'
+const HOST = 'wss://achat.sabae.cc/ws'
+
 const addMessage = function (s, mymessage) {
   const div = document.createElement('div')
   div.textContent = s
@@ -37,7 +40,7 @@ window.onload = async function () {
   roomName.textContent = room
 
   const client = new AnonymousClient()
-  await client.connect(room, data => addMessage(data.data.text, client.isMine(data)))
+  await client.connect(HOST, room, data => addMessage(data.data.text, client.isMine(data)))
   messageForm.onsubmit = e => {
     e.preventDefault()
     if (messageInput.value.trim().length === 0) { return }

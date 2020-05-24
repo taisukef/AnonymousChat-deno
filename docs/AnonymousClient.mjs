@@ -7,8 +7,9 @@ class AnonymousClient {
     this.callback = null
   }
 
-  async connect (room, callback) {
+  async connect (host, room, callback) {
     this.room = room
+    this.host = host
     this.callback = callback
     await this.initConnection()
   }
@@ -17,7 +18,7 @@ class AnonymousClient {
     return new Promise((resolve, reject) => {
       this.ws = null
       try {
-        this.ws = new WebSocket('ws://localhost:3000/ws')
+        this.ws = new WebSocket(this.host)
       } catch (e) {
         reject(e)
         return
